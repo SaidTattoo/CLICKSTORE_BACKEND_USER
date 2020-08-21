@@ -1,0 +1,6 @@
+{
+  "config": {
+      "PORT": 3000,
+      "MONGO_DB": "mongo_url"
+  }
+}
