@@ -17,7 +17,7 @@ const URL = keys.mongoURI
 //prueba git
 
 mongoose.connect(URL,
-    {useNewUrlParser: true, useUnifiedTopology: true},(error) =>{
+    {useNewUrlParser: true, useUnifiedTopology: true,useFindAndModify:false,useCreateIndex: false},(error) =>{
         if(error) throw error;
         console.log('Db connected')
 })

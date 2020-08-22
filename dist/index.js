@@ -15,7 +15,7 @@ server.app.use('/usuarios', usuarios_1.default);
 const URL = keys.mongoURI;
 //conectar a ddbb
 //prueba git
-mongoose_1.default.connect(URL, { useNewUrlParser: true, useUnifiedTopology: true }, (error) => {
+mongoose_1.default.connect(URL, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: false }, (error) => {
     if (error)
         throw error;
     console.log('Db connected');

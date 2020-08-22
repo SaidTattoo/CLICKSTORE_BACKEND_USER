@@ -5,46 +5,78 @@ import Token from '../classes/token'
 import { verificarToken } from "../middlewares/authentication";
 const usuariosRouter  = Router();
 
+/**
+ * @Crear
+ */
 usuariosRouter.post('/create', (req : Request, res : Response) => {
     
     const user = {
         nombre  :req.body.nombre,
         email   :req.body.email,
         password:bcrypt.hashSync(req.body.password,10),
-        avatar  :req.body.avatar
+        avatar  :req.body.avatar,
     }
 
     Usuario.create( user ).then( userDB => {
-
         const tokenUser = Token.getJWToken({
             _id: userDB._id,
             nombre:userDB.nombre,
             email:userDB.email,
             avatar:userDB.avatar
         });
-
         res.json({
-            ok:true,
-            user:tokenUser
+            codeResponse:200,
+            token:tokenUser,
+            user:userDB
         })
     }).catch(err => {
         res.json({
-            ok:false,
-            user:err
+            codeResponse:110,
+            description:'NO_SE_PUDO_CREAR_USUARIO',
+            user:err,
         })
     })
 })
+/**
+ * @Listar
+ */
 usuariosRouter.get('/list',(req:Request, res:Response)=>{
         Usuario.find().then( userDB  =>{
             res.json({
+                codeResponse:200,
                 ok:true,
                 user:userDB
             })
         })
 })
-usuariosRouter.post('/delete',(req: Request, res : Response) => {
+/**
+ * @Dar_de_baja
+ */
+usuariosRouter.post('/delete',verificarToken,(req: any, res : Response) => {
+    const user = {
+        existe : false
+    }
+    Usuario.findByIdAndUpdate( req.usuario._id, user, { new: true}, (err,userDB)=>{
+        if(err) throw err;
+        if(!userDB){
+            res.json({
+                
+                ok:false,
+                mensaje:'No se logro eliminar'
+            })
+        }else{
+            res.json({
+                codeResponse:200,
+                ok:true,
+                user:userDB
+            })
+        } 
+    })
     
 })
+/**
+ * @Actualizar
+ */
 usuariosRouter.post('/update',verificarToken,(req: any, res : Response) => {
 
     const user = {
@@ -56,18 +88,19 @@ usuariosRouter.post('/update',verificarToken,(req: any, res : Response) => {
     Usuario.findByIdAndUpdate( req.usuario._id, user, { new: true}, (err,userDB)=>{
         if(err) throw err;
         if(!userDB){
-            res.json({
+            res.json({ 
                 ok:false,
                 mensaje:'No existe usuario'
             })
         }else{
             const tokenUser = Token.getJWToken({
-                _id:userDB._id,
+                _id:userDB._id, 
                 nombre:userDB.nombre,
                 email:userDB.email,
                 avatar:userDB.avatar
             });
             res.json({
+                codeResponse:200,
                 ok:true,
                 token:tokenUser,
                 user:userDB
@@ -75,6 +108,9 @@ usuariosRouter.post('/update',verificarToken,(req: any, res : Response) => {
         } 
     })
 })
+/**
+ * @Login
+ */
 usuariosRouter.post('/login',(req: Request, res : Response)=>{
     const body = req.body;
     Usuario.findOne({email: body.email},(err, userDB) => {

@@ -9,12 +9,15 @@ const bcrypt_1 = __importDefault(require("bcrypt"));
 const token_1 = __importDefault(require("../classes/token"));
 const authentication_1 = require("../middlewares/authentication");
 const usuariosRouter = express_1.Router();
+/**
+ * @Crear
+ */
 usuariosRouter.post('/create', (req, res) => {
     const user = {
         nombre: req.body.nombre,
         email: req.body.email,
         password: bcrypt_1.default.hashSync(req.body.password, 10),
-        avatar: req.body.avatar
+        avatar: req.body.avatar,
     };
     usuario_1.Usuario.create(user).then(userDB => {
         const tokenUser = token_1.default.getJWToken({
@@ -24,26 +27,58 @@ usuariosRouter.post('/create', (req, res) => {
             avatar: userDB.avatar
         });
         res.json({
-            ok: true,
-            user: tokenUser
+            codeResponse: 200,
+            token: tokenUser,
+            user: userDB
         });
     }).catch(err => {
         res.json({
-            ok: false,
-            user: err
+            codeResponse: 110,
+            description: 'NO_SE_PUDO_CREAR_USUARIO',
+            user: err,
         });
     });
 });
+/**
+ * @Listar
+ */
 usuariosRouter.get('/list', (req, res) => {
     usuario_1.Usuario.find().then(userDB => {
         res.json({
+            codeResponse: 200,
             ok: true,
             user: userDB
         });
     });
 });
-usuariosRouter.post('/delete', (req, res) => {
+/**
+ * @Dar_de_baja
+ */
+usuariosRouter.post('/delete', authentication_1.verificarToken, (req, res) => {
+    const user = {
+        existe: false
+    };
+    usuario_1.Usuario.findByIdAndUpdate(req.usuario._id, user, { new: true }, (err, userDB) => {
+        if (err)
+            throw err;
+        if (!userDB) {
+            res.json({
+                ok: false,
+                mensaje: 'No se logro eliminar'
+            });
+        }
+        else {
+            res.json({
+                codeResponse: 200,
+                ok: true,
+                user: userDB
+            });
+        }
+    });
 });
+/**
+ * @Actualizar
+ */
 usuariosRouter.post('/update', authentication_1.verificarToken, (req, res) => {
     const user = {
         nombre: req.body.nombre || req.usuario.nombre,
@@ -67,6 +102,7 @@ usuariosRouter.post('/update', authentication_1.verificarToken, (req, res) => {
                 avatar: userDB.avatar
             });
             res.json({
+                codeResponse: 200,
                 ok: true,
                 token: tokenUser,
                 user: userDB
@@ -74,6 +110,9 @@ usuariosRouter.post('/update', authentication_1.verificarToken, (req, res) => {
         }
     });
 });
+/**
+ * @Login
+ */
 usuariosRouter.post('/login', (req, res) => {
     const body = req.body;
     usuario_1.Usuario.findOne({ email: body.email }, (err, userDB) => {

@@ -17,6 +17,10 @@ const usuarioSchema = new Schema({
     password:{
         type:String,
         required:true
+    },
+    existe: {
+        type:Boolean,
+        default:true
     }
 })
 usuarioSchema.method('compararPassword',function(password:string = ''){
@@ -31,7 +35,8 @@ interface IUsuario extends Document{
     nombre:string,
     email:string,
     avatar?:string,
-    password:string
+    password:string,
+    
 
     compararPassword(password:string): boolean
 }

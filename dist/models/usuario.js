@@ -23,6 +23,10 @@ const usuarioSchema = new mongoose_1.Schema({
     password: {
         type: String,
         required: true
+    },
+    existe: {
+        type: Boolean,
+        default: true
     }
 });
 usuarioSchema.method('compararPassword', function (password = '') {
