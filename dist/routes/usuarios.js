@@ -6,6 +6,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const usuario_1 = require("../models/usuario");
 const bcrypt_1 = __importDefault(require("bcrypt"));
+const token_1 = __importDefault(require("../classes/token"));
+const authentication_1 = require("../middlewares/authentication");
 const usuariosRouter = express_1.Router();
 usuariosRouter.post('/create', (req, res) => {
     const user = {
@@ -15,9 +17,15 @@ usuariosRouter.post('/create', (req, res) => {
         avatar: req.body.avatar
     };
     usuario_1.Usuario.create(user).then(userDB => {
+        const tokenUser = token_1.default.getJWToken({
+            _id: userDB._id,
+            nombre: userDB.nombre,
+            email: userDB.email,
+            avatar: userDB.avatar
+        });
         res.json({
             ok: true,
-            user: userDB
+            user: tokenUser
         });
     }).catch(err => {
         res.json({
@@ -29,14 +37,42 @@ usuariosRouter.post('/create', (req, res) => {
 usuariosRouter.get('/list', (req, res) => {
     usuario_1.Usuario.find().then(userDB => {
         res.json({
-            ok: false,
+            ok: true,
             user: userDB
         });
     });
 });
 usuariosRouter.post('/delete', (req, res) => {
 });
-usuariosRouter.post('/update', (req, res) => {
+usuariosRouter.post('/update', authentication_1.verificarToken, (req, res) => {
+    const user = {
+        nombre: req.body.nombre || req.usuario.nombre,
+        email: req.body.email || req.usuario.email,
+        avatar: req.body.avatar || req.usuario.avatar
+    };
+    usuario_1.Usuario.findByIdAndUpdate(req.usuario._id, user, { new: true }, (err, userDB) => {
+        if (err)
+            throw err;
+        if (!userDB) {
+            res.json({
+                ok: false,
+                mensaje: 'No existe usuario'
+            });
+        }
+        else {
+            const tokenUser = token_1.default.getJWToken({
+                _id: userDB._id,
+                nombre: userDB.nombre,
+                email: userDB.email,
+                avatar: userDB.avatar
+            });
+            res.json({
+                ok: true,
+                token: tokenUser,
+                user: userDB
+            });
+        }
+    });
 });
 usuariosRouter.post('/login', (req, res) => {
     const body = req.body;
@@ -50,9 +86,15 @@ usuariosRouter.post('/login', (req, res) => {
             });
         }
         if (userDB.compararPassword(body.password)) {
+            const tokenUser = token_1.default.getJWToken({
+                _id: userDB._id,
+                nombre: userDB.nombre,
+                email: userDB.email,
+                avatar: userDB.avatar
+            });
             res.json({
                 ok: true,
-                token: 'tokendeejemplo'
+                token: tokenUser
             });
         }
     });
