@@ -20,7 +20,7 @@ const options = {
     ],
     credentials: true,
     methods: 'GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE',
-    origin: 'http://localhost:3000',
+    origin: "*",
     preflightContinue: false,
 };
 server.app.use(body_parser_1.default.urlencoded({ extended: true }));
