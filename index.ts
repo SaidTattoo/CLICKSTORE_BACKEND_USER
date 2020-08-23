@@ -3,7 +3,7 @@ import usuariosRouter from './routes/usuarios';
 import tiendasRouter from './routes/tiendas'
 import mongoose, { Mongoose } from 'mongoose'
 import bodyParser from 'body-parser';
-import * as cors from 'cors';
+const cors = require('cors');
 const keys = require ('./enviroments/enviroment')
 
 const server = new Server();
@@ -20,6 +20,8 @@ const options: cors.CorsOptions = {
     origin:"*",
     preflightContinue: false,
   };
+
+server.app.options('*',cors(options))
 server.app.use(bodyParser.urlencoded({extended:true}))
 server.app.use(bodyParser.json())
 server.app.use('/usuarios',usuariosRouter)

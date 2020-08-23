@@ -8,6 +8,7 @@ const usuarios_1 = __importDefault(require("./routes/usuarios"));
 const tiendas_1 = __importDefault(require("./routes/tiendas"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const body_parser_1 = __importDefault(require("body-parser"));
+const cors = require('cors');
 const keys = require('./enviroments/enviroment');
 const server = new server_1.default();
 const options = {
@@ -23,6 +24,7 @@ const options = {
     origin: "*",
     preflightContinue: false,
 };
+server.app.options('*', cors(options));
 server.app.use(body_parser_1.default.urlencoded({ extended: true }));
 server.app.use(body_parser_1.default.json());
 server.app.use('/usuarios', usuarios_1.default);
