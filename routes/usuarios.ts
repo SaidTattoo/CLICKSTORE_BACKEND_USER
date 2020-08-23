@@ -1,12 +1,14 @@
 import { Router,Request,Response } from "express";
 import { Usuario } from "../models/usuario";
-import   bcrypt    from 'bcrypt'
-import Token from '../classes/token'
+import bcrypt     from 'bcrypt'
+import Token      from '../classes/token'
 import { verificarToken } from "../middlewares/authentication";
+
 const usuariosRouter  = Router();
 
 /**
  * @Crear
+ * no se va a utilizar ya que el usuario solo administra su propio estatus
  */
 usuariosRouter.post('/create', (req : Request, res : Response) => {
     

@@ -11,6 +11,7 @@ const authentication_1 = require("../middlewares/authentication");
 const usuariosRouter = express_1.Router();
 /**
  * @Crear
+ * no se va a utilizar ya que el usuario solo administra su propio estatus
  */
 usuariosRouter.post('/create', (req, res) => {
     const user = {

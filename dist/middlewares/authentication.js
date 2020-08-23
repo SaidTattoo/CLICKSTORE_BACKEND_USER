@@ -15,6 +15,7 @@ exports.verificarToken = (req, res, next) => {
     })
         .catch(err => {
         res.json({
+            codeResponse: 401,
             ok: false,
             mensaje: 'token invalido'
         });

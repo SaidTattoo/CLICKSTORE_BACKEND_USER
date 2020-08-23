@@ -28,4 +28,4 @@ class Token {
 }
 exports.default = Token;
 Token.seed = "seed-de-clickstore-app";
-Token.caducidad = "1d";
+Token.caducidad = "30d";

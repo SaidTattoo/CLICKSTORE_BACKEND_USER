@@ -1,2 +1,3 @@
 node_modules/
-./enviroments/enviroment.json"mongodb+srv://clickstoreAdmin:clickstore@cluster0.nz6cf.mongodb.net/CLICKSTORE"
+dist/
+enviroments/enviroment.json"mongodb+srv://clickstoreAdmin:clickstore@cluster0.nz6cf.mongodb.net/CLICKSTORE"

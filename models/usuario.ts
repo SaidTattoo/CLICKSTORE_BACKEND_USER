@@ -36,7 +36,6 @@ interface IUsuario extends Document{
     email:string,
     avatar?:string,
     password:string,
-    
 
     compararPassword(password:string): boolean
 }

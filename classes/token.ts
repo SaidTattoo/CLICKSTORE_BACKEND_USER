@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken'
 export default class Token{
 
     private static seed:string = "seed-de-clickstore-app";
-    private static caducidad: string ="1d";
+    private static caducidad: string ="30d";
 
     constructor(){}
 
