@@ -7,7 +7,7 @@ const cors = require('cors');
 const keys = require ('./enviroments/enviroment')
 
 const server = new Server();
-const options: cors.CorsOptions = {
+const options: any = {
     allowedHeaders: [
       'Origin',
       'X-Requested-With',
