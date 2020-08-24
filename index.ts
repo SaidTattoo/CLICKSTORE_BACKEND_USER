@@ -1,31 +1,22 @@
+
 import Server from './server/server'
 import usuariosRouter from './routes/usuarios';
 import tiendasRouter from './routes/tiendas'
+import universidadRouter from './routes/universidades'
 import mongoose, { Mongoose } from 'mongoose'
 import bodyParser from 'body-parser';
 const cors = require('cors');
 const keys = require ('./enviroments/enviroment')
 
 const server = new Server();
-const options: any = {
-    allowedHeaders: [
-      'Origin',
-      'X-Requested-With',
-      'Content-Type',
-      'Accept',
-      'X-Access-Token',
-    ],
-    credentials: true,
-    methods: 'GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE',
-    origin:"*",
-    preflightContinue: false,
-  };
 
-server.app.options('*',cors(options))
+server.app.use(cors())
+
 server.app.use(bodyParser.urlencoded({extended:true}))
 server.app.use(bodyParser.json())
 server.app.use('/usuarios',usuariosRouter)
 server.app.use('/tiendas',tiendasRouter)
+server.app.use('/universidades',universidadRouter)
 const URL = keys.mongoURI
 //conectar a ddbb
 

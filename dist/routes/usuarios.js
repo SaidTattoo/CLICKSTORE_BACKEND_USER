@@ -121,6 +121,7 @@ usuariosRouter.post('/login', (req, res) => {
             throw err;
         if (!userDB) {
             return res.json({
+                codeResponse: 401,
                 ok: false,
                 mensaje: 'User / password incorrect !'
             });
@@ -133,6 +134,7 @@ usuariosRouter.post('/login', (req, res) => {
                 avatar: userDB.avatar
             });
             res.json({
+                codeResponse: 200,
                 ok: true,
                 token: tokenUser
             });

@@ -3,7 +3,6 @@ import { Usuario } from "../models/usuario";
 import bcrypt     from 'bcrypt'
 import Token      from '../classes/token'
 import { verificarToken } from "../middlewares/authentication";
-
 const usuariosRouter  = Router();
 
 /**
@@ -119,6 +118,7 @@ usuariosRouter.post('/login',(req: Request, res : Response)=>{
         if(err) throw err
         if(!userDB){
             return res.json({
+                codeResponse:401,
                 ok:false,
                 mensaje:'User / password incorrect !'
             })
@@ -133,6 +133,7 @@ usuariosRouter.post('/login',(req: Request, res : Response)=>{
             });
 
             res.json({
+                codeResponse:200,
                 ok:true,
                 token:tokenUser
             })
