@@ -9,6 +9,7 @@ const tiendas_1 = __importDefault(require("./routes/tiendas"));
 const universidades_1 = __importDefault(require("./routes/universidades"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const body_parser_1 = __importDefault(require("body-parser"));
+//swagger 
 const cors = require('cors');
 const keys = require('./enviroments/enviroment');
 const server = new server_1.default();

@@ -5,12 +5,17 @@ import tiendasRouter from './routes/tiendas'
 import universidadRouter from './routes/universidades'
 import mongoose, { Mongoose } from 'mongoose'
 import bodyParser from 'body-parser';
+//swagger 
+
+
 const cors = require('cors');
 const keys = require ('./enviroments/enviroment')
 
 const server = new Server();
 
 server.app.use(cors())
+
+
 
 server.app.use(bodyParser.urlencoded({extended:true}))
 server.app.use(bodyParser.json())

@@ -1,0 +1,59 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "API AUTH",
+    "description": "Api de autenticación y registro",
+    "version": "1.0.0"
+  },
+  "securityDefinitions":{
+    "APIKEY":{
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header"
+    }
+  },
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "license": {
+    "name": "Apache 2.0",
+    "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
+  },
+  "host": "localhost:3000",
+  "basePath": "/usuarios",
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/login":{
+      "post":{
+        "tags":[
+          "Users"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Pet object that needs to be added to the store",
+            "required": true
+          }
+        ],
+        "produces":["application/json"],
+        "consumes":["application/json"],
+        "summary": "Login de usuario",
+        "responses": {
+          "200":{
+            "description": "Ok"
+          },
+          "400":{
+            "description": "Bad"
+          }
+        }
+      }
+    }
+  }
+}
