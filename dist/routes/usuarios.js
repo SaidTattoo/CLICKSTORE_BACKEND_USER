@@ -86,7 +86,8 @@ usuariosRouter.post('/update', authentication_1.verificarToken, (req, res) => {
     const user = {
         nombre: req.body.nombre || req.usuario.nombre,
         email: req.body.email || req.usuario.email,
-        avatar: req.body.avatar || req.usuario.avatar
+        avatar: req.body.avatar || req.usuario.avatar,
+        universidad: req.body.universidad || req.usuario.universidad,
     };
     usuario_1.Usuario.findByIdAndUpdate(req.usuario._id, user, { new: true }, (err, userDB) => {
         if (err)
@@ -102,7 +103,8 @@ usuariosRouter.post('/update', authentication_1.verificarToken, (req, res) => {
                 _id: userDB._id,
                 nombre: userDB.nombre,
                 email: userDB.email,
-                avatar: userDB.avatar
+                avatar: userDB.avatar,
+                universidad: userDB.universidad
             });
             res.json({
                 codeResponse: 200,
