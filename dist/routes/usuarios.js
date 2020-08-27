@@ -19,13 +19,15 @@ usuariosRouter.post('/create', (req, res) => {
         email: req.body.email,
         password: bcrypt_1.default.hashSync(req.body.password, 10),
         avatar: req.body.avatar,
+        universidad: req.body.universidad,
     };
     usuario_1.Usuario.create(user).then(userDB => {
         const tokenUser = token_1.default.getJWToken({
             _id: userDB._id,
             nombre: userDB.nombre,
             email: userDB.email,
-            avatar: userDB.avatar
+            avatar: userDB.avatar,
+            universidad: userDB.universidad
         });
         res.json({
             codeResponse: 200,

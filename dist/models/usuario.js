@@ -15,6 +15,10 @@ const usuarioSchema = new mongoose_1.Schema({
         type: String,
         default: 'av-1.png'
     },
+    universidad: {
+        type: String,
+        required: true
+    },
     email: {
         type: String,
         unique: true,

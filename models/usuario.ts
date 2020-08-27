@@ -9,6 +9,10 @@ const usuarioSchema = new Schema({
         type:String,
         default: 'av-1.png'
     },
+    universidad:{
+        type:String,
+        required: true
+    },
     email:{
         type:String,
         unique:true,
@@ -35,6 +39,7 @@ interface IUsuario extends Document{
     nombre:string,
     email:string,
     avatar?:string,
+    universidad:string,
     password:string,
 
     compararPassword(password:string): boolean

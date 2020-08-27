@@ -16,6 +16,7 @@ usuariosRouter.post('/create', (req : Request, res : Response) => {
         email   :req.body.email,
         password:bcrypt.hashSync(req.body.password,10),
         avatar  :req.body.avatar,
+        universidad  :req.body.universidad,
     }
 
     Usuario.create( user ).then( userDB => {
@@ -23,7 +24,8 @@ usuariosRouter.post('/create', (req : Request, res : Response) => {
             _id: userDB._id,
             nombre:userDB.nombre,
             email:userDB.email,
-            avatar:userDB.avatar
+            avatar:userDB.avatar,
+            universidad:userDB.universidad
         });
         res.json({
             codeResponse:200,
